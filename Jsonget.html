@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head> 
+<body>
+    <p>API get all data from database -- Json</p>
+    <button type="button" id="myBtn" onclick="displayMessage()">Click Me</button>
+    
+    </p>
+    
+
+    <table id="userList" border="1">
+        <tr>
+            <th>UserId</th>
+            <th>UserName</th>
+            <th>PhoneNumber</th>
+            <th>City</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td ></td>
+            <td ></td>
+            <td></td>
+            <td></td> 
+            <td> <button class="Edit">Edit</button> |  <button class="Delete">Delete</button></td>
+            
+        </tr>
+
+    </table>
+
+    <script>
+        const getAllUsers = async() => {
+            const response = await fetch("http://localhost:23826/api/User/GetUsers");
+            const usersJson = await response.json();
+            if (usersJson) {
+                console.log(usersJson)
+                
+                let len = usersJson.length;
+                let user = 0;
+     
+
+                let allUserList = document.getElementById('userList');
+
+                while(user < len){
+                    var new_row = allUserList.rows[1].cloneNode(true);
+                    new_row.cells[0].innerHTML = usersJson[user].id;
+                    new_row.cells[1].innerHTML = usersJson[user].userName;
+                    new_row.cells[2].innerHTML = usersJson[user].city;
+                    new_row.cells[3].innerHTML = usersJson[user].phonenumber;
+                    allUserList.appendChild( new_row );
+                    user++;
+                }
+                
+            }   
+        }
+
+
+        function displayMessage() {
+            getAllUsers();
+        }
+    </script>
+
+</body>
+</html>
